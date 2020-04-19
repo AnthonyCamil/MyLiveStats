@@ -8,6 +8,8 @@ import {updateReviews,createMessage} from './graphql/mutations';
 import {onUpdateMovies,onUpdateReviews,onCreateMessage} from './graphql/subscriptions';
 import Amplify, {API,graphqlOperation} from 'aws-amplify';
 import aws_exports from './aws-exports'; // specify the location of aws-exports.js file on your project
+import styled from 'styled-components';
+import TeamStatLine from './TeamStatLine';
 
 Amplify.configure({
   Auth: {
@@ -18,6 +20,58 @@ Amplify.configure({
   aws_appsync_region: aws_exports.aws_appsync_region,
   aws_appsync_authenticationType: 'AWS_IAM'
 });
+
+const Wrapper = styled.div`
+  border: 9px solid #ff32ff;
+  min-width: 380px;
+  height: 50vh;
+`
+const BoxScoreWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  border: 1px solid #555;
+  margin: 0px 20px 20px;
+  position: relative;
+  min-height: 5vh;
+  max-height:5vh;
+`;
+
+const ButtonContainer = styled.div`
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  padding: 0px 20px 10px;
+  display: flex;
+`;
+const IndicatorWrapper = styled.div`
+  position: absolute;
+  width: 300px;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  padding: 4px 2px;
+  pointer-events: none;
+`;
+
+const Text = styled.h2`
+  color: white;
+  font-size: 14px;
+  margin-left: 20px;
+  line-height: 100%;
+  margin: 0;
+  vertical-align: middle;
+  padding: 0px 10px;
+  line-height: 50px;
+`;
+
+
+const BoxScoreHeaders = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'R'];
+const teamBoxScores = {
+  Away_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
+  Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,], 
+};
 
 
 class App extends Component {
@@ -287,20 +341,42 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-dark bg-dark">
-          <p className="navbar-brand p-0">TMDb Popular Movies - Vote and Discuss in Real-Time</p>
+          <p className="navbar-brand p-0">My Live Stats</p>
         </nav>
         <div className="container-fluid mx-auto">
           <br/>
           <div className="card p-3 shadow">
             <div className="p-2">
               <div className="row align-items-top p-0">
-                <div className="col-md-4 p-1 card-body">
+                <div className="col-mx-auto p-1 card-body">
                   <div className="mx-auto text-center rounded bg-dark rounded col-height">
                     <br/>
+                    
+                    
+                    <Wrapper>
+      
+                      <IndicatorWrapper>
+                         <Text >hello</Text>
+                      </IndicatorWrapper>
+                      <React.Suspense fallback={<p>loading</p>}>
+                        
+                        <BoxScoreWrapper>
+                          <TeamStatLine teamName='' boxValues={BoxScoreHeaders} />
+                          <TeamStatLine teamName='Away Team' boxValues={teamBoxScores['Away_Team']} />
+                          <TeamStatLine teamName='Home Team' boxValues={teamBoxScores['Home_Team']}/>
+                          
+                        </BoxScoreWrapper>
+                        <ButtonContainer>
+                          
+                        </ButtonContainer>
+                      </React.Suspense>
+                    </Wrapper>
+                    
+                    
                     {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
                   </div>
                 </div>
-                <div className="col-md-4 p-1 card-body">
+                {/*<div className="col-md-4 p-1 card-body">
                   <div className="mx-auto bg-light rounded col-height">
                       <table className="table table-borderless bg-dark text-white rounded">
                       <tbody>
@@ -334,7 +410,7 @@ class App extends Component {
                       </table>
                     </div>
                   </div>
-                </div>
+                </div>*/}
                 <div className="col-md-4 p-1 card-body">
                   <div className="mx-auto bg-light rounded col-height">
                   {this.state.user ? 
@@ -394,43 +470,12 @@ class App extends Component {
           </div>
         </div>
         <br/>
-        <table className="table table-striped">
-          <thead className="thead-dark">
-            <tr>
-              <th className="bg-white text-dark text-center text-uppercase border-top-0"><strong><h4>Leaderboard</h4></strong></th>
-              <th className="bg-dark text-center"><h5>Movie</h5></th>
-              <th className="bg-dark text-center"><h5>Votes</h5></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="bg-dark text-white"><strong>Top Loved <i className="fas fa-heart"></i></strong></td>
-              <td className="text-center">{this.state.topLovedMovie}</td>
-              <td className="text-center">{this.state.topLove}</td>
-            </tr>
-            <tr>
-              <td className="bg-dark text-white"><strong>Top Liked <i className="fas fa-grin"></i></strong></td>
-              <td className="text-center">{this.state.topLikedMovie}</td>
-              <td className="text-center">{this.state.topLike}</td>
-            </tr>
-            <tr>
-              <td className="bg-dark text-white"><strong>Top Meh <i className="fas fa-meh"></i></strong></td>
-              <td className="text-center">{this.state.topMehMovie}</td>
-              <td className="text-center">{this.state.topMeh}</td>
-            </tr>
-            <tr>
-              <td className="bg-dark text-white"><strong>Top Unknown <i className="fas fa-question-circle"></i></strong></td>
-              <td className="text-center">{this.state.topUnknownMovie}</td>
-              <td className="text-center">{this.state.topUnknown}</td>
-            </tr>
-            <tr>
-              <td className="bg-dark text-white"><strong>Top Hated <i className="fas fa-angry"></i></strong></td>
-              <td className="text-center">{this.state.topHatedMovie}</td>
-              <td className="text-center">{this.state.topHate}</td>
-            </tr>
-          </tbody>
-        </table>
+        
+        
       </div>
+      
+      
+    
     );
   }
 }

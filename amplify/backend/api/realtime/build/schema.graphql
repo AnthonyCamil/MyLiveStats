@@ -133,19 +133,6 @@ input ModelMoviesFilterInput {
   not: ModelMoviesFilterInput
 }
 
-enum ModelAttributeTypes {
-  binary
-  binarySet
-  bool
-  list
-  map
-  number
-  numberSet
-  string
-  stringSet
-  _null
-}
-
 type Query {
   getMovies(id: ID!): Movies
   listMoviess(filter: ModelMoviesFilterInput, limit: Int, nextToken: String): ModelMoviesConnection
@@ -181,6 +168,19 @@ input ModelMoviesConditionInput {
   and: [ModelMoviesConditionInput]
   or: [ModelMoviesConditionInput]
   not: ModelMoviesConditionInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
 }
 
 type ModelReviewsConnection {

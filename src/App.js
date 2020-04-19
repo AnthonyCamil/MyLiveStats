@@ -4,12 +4,19 @@ import './App.css';
 import {Animated} from "react-animated-css";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import {listMoviess,listReviewss} from './graphql/queries'; 
-import {updateReviews,createMessage} from './graphql/mutations';
+
+import {updateReviews,createMessage, createBoxScore as CreateBoxScore, updateBoxScore as UpdateBoxScore, } from './graphql/mutations';
 import {onUpdateMovies,onUpdateReviews,onCreateMessage} from './graphql/subscriptions';
 import Amplify, {API,graphqlOperation} from 'aws-amplify';
 import aws_exports from './aws-exports'; // specify the location of aws-exports.js file on your project
 import styled from 'styled-components';
 import TeamStatLine from './TeamStatLine';
+import ScoreButton from './ScoreButton';
+import BoxScoreContext from './BoxScoreContext';
+import uuid from 'uuid/v4';
+import BoxScore from './BoxScore';
+
+const clientId = uuid();
 
 Amplify.configure({
   Auth: {
@@ -25,16 +32,28 @@ const Wrapper = styled.div`
   border: 9px solid #ff32ff;
   min-width: 380px;
   height: 50vh;
-`
+`;
+
+const Container = styled.div`
+  min-width: 380px;
+  
+  margin: auto;
+  background: linear-gradient(to bottom right, #222, #0a0a0a);
+  border: 2px solid black;
+  
+  display: flex;
+  
+  flex-direction: column;
+`;
+
 const BoxScoreWrapper = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   border: 1px solid #555;
   margin: 0px 20px 20px;
-  position: relative;
-  min-height: 5vh;
-  max-height:5vh;
+  
+  
 `;
 
 const ButtonContainer = styled.div`
@@ -66,6 +85,23 @@ const Text = styled.h2`
   line-height: 50px;
 `;
 
+const Button = styled.button`
+  background: white;
+  flex: 1;
+  border: 2px solid #fd7272;
+  color: blue;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 2;
+  padding: 20px;
+  font-family: 'Righteous', cursive;
+  margin: 2px;
+  &:active {
+    background: #fd7272;
+    color: black;
+  }
+`;
+
 
 const BoxScoreHeaders = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'R'];
 const teamBoxScores = {
@@ -73,6 +109,21 @@ const teamBoxScores = {
   Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,], 
 };
 
+async function updateBoxScore(boxEntries, machineID) {
+    const boxScores = { 
+      id: machineID, clientId,  boxScore: JSON.stringify(boxEntries)
+    }
+    try {
+      await API.graphl(graphqlOperation(UpdateBoxScore, {input: boxScores }))
+    } catch (err) {
+      console.log('error updating drum machine...:', err)
+    }
+    return () => {}
+  }
+  
+function reducer(state, action) {
+  return action
+}
 
 class App extends Component {
 
@@ -84,6 +135,10 @@ class App extends Component {
       poster:"",
       plot:"",
       date:"",
+      currentInning: 1,
+      inningHalf:"top",
+      
+      
       love: 0,
       like: 0,
       meh: 0,
@@ -111,6 +166,8 @@ class App extends Component {
       messages:[]
     };
   }
+  
+  
 
   async componentDidMount(){
     let firstMovies = await API.graphql(graphqlOperation(listMoviess));
@@ -324,6 +381,7 @@ class App extends Component {
       this.setState({value:""});
     });
   }
+  
 
   render() {
     const currentUser = "["+this.state.user+"]: ";
@@ -353,25 +411,33 @@ class App extends Component {
                     <br/>
                     
                     
+                    <BoxScore gameName='1' id= '11'
+                    />
                     <Wrapper>
-      
-                      <IndicatorWrapper>
-                         <Text >hello</Text>
-                      </IndicatorWrapper>
+                      {/*<BoxScoreContext.Provider value={{ state: boxScoreState, setBoxScore, updateBoxScore, machineId }} >*/}
+            
+                      <Container>
+                      
                       <React.Suspense fallback={<p>loading</p>}>
                         
                         <BoxScoreWrapper>
-                          <TeamStatLine teamName='' boxValues={BoxScoreHeaders} />
+                          <TeamStatLine teamName='' boxValues={BoxScoreHeaders} /> {/* header row */}
                           <TeamStatLine teamName='Away Team' boxValues={teamBoxScores['Away_Team']} />
                           <TeamStatLine teamName='Home Team' boxValues={teamBoxScores['Home_Team']}/>
                           
                         </BoxScoreWrapper>
+                        
                         <ButtonContainer>
-                          
+                        
+                         <ScoreButton btnName='Home' />
+                          <ScoreButton btnName='Away' />
+                          <ScoreButton btnName='New Inning' />
+                         
                         </ButtonContainer>
                       </React.Suspense>
+                      </Container>
+                      {/*</BoxScoreContext.Provider>*/}
                     </Wrapper>
-                    
                     
                     {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
                   </div>

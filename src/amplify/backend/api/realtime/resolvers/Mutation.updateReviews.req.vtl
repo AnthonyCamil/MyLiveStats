@@ -1,0 +1,30 @@
+{
+  "version": "2017-02-28",
+  "operation": "UpdateItem",
+  "key": {
+      "id": {
+          "S": "$context.args.input.id"
+    }
+  },
+  "update": 
+  	{	
+    	#if( $context.args.input.votes == 0 )
+          "expression" : "SET votes = :votes, topMovie = :m, topVotes = :v",
+          "expressionValues" : {
+             ":votes":{"N":"0"},
+             ":m":{"S":"$context.args.input.topMovie"},
+             ":v":{"N":"$context.args.input.topVotes"}
+             }
+        #elseif( $context.args.input.votes > 0 )
+          "expression" : "SET votes = :votes",
+          "expressionValues" : {
+             ":votes":{"N":"$context.args.input.votes"}
+             }
+        #else 
+          "expression" : "SET votes = votes + :incr",
+          "expressionValues" : {
+             ":incr":{"N":"1"}
+     		}
+        #end
+    }
+}

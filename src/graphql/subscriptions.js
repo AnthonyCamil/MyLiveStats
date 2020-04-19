@@ -68,3 +68,30 @@ export const onDeleteReviews = `subscription OnDeleteReviews {
   }
 }
 `;
+export const onCreateBoxScore= `subscription OnCreateBoxScore {
+  onCreateBoxScore {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;
+export const onUpdateBoxScore = `subscription OnUpdateBoxScore {
+  onUpdateBoxScore {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;
+export const onUpdateByID = `subscription onUpdateByID($id: ID!) {
+  onUpdateByID(id: $id) {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;

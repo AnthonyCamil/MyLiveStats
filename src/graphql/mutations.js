@@ -68,3 +68,24 @@ export const deleteReviews = `mutation DeleteReviews($input: DeleteReviewsInput!
   }
 }
 `;
+
+export const createBoxScore = `mutation CreateBoxScoreMachine($input: CreateBoxScoreInput!) {
+  createBoxScore(input: $input) {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;
+
+	
+export const updateBoxScore = `mutation UpdateBoxScore($input: UpdateBoxScoreInput!) {
+  updateBoxScore(input: $input) {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;

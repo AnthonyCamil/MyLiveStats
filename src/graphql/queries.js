@@ -55,3 +55,23 @@ export const listReviewss = `query ListReviewss(
   }
 }
 `;
+
+export const onUpdateBoxScore = `subscription OnUpdateBoxScore {
+  onUpdateBoxScore {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;
+
+export const getBoxScore = `query GetBoxScore($id: ID!) {
+  getBoxScore(id: $id) {
+    id
+    clientId
+    boxScore
+    name
+  }
+}
+`;

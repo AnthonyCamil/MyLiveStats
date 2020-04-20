@@ -81,9 +81,9 @@ Away_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
   Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,], 
 };
 
-async function updateBoxScore(boxEntries, machineID) {
+async function updateBoxScore(boxEntries, machineId) {
     const boxScores = { 
-      id: machineID, clientId,  boxScore: JSON.stringify(boxEntries)
+      id: machineId, clientId,  boxScore: JSON.stringify(boxEntries)
     }
     try {
       await API.graphql(graphqlOperation(UpdateBoxScore, {input: boxScores }))

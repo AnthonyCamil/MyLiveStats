@@ -109,17 +109,7 @@ const teamBoxScores = {
   Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,], 
 };
 
-async function updateBoxScore(boxEntries, machineID) {
-    const boxScores = { 
-      id: machineID, clientId,  boxScore: JSON.stringify(boxEntries)
-    }
-    try {
-      await API.graphl(graphqlOperation(UpdateBoxScore, {input: boxScores }))
-    } catch (err) {
-      console.log('error updating drum machine...:', err)
-    }
-    return () => {}
-  }
+
   
 function reducer(state, action) {
   return action

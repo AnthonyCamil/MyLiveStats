@@ -70,6 +70,7 @@ export default React.memo(function ScoreButton({ btnName }) {
         const newBoxScore = {
             ...state,
             ['Inning']: currentInning,
+            ['InningHalf']: currentInningHalf,
             [whichTeam]: activeBox,
             ['Away_Team']: awayScores,
         }

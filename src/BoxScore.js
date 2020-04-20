@@ -83,7 +83,7 @@ Away_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
 
 async function updateBoxScore(boxEntries, machineId) {
     const boxScores = { 
-      id: machineId, clientId,  boxScore: JSON.stringify(boxEntries)
+      id: machineId, clientId,  boxScore: JSON.stringify(boxEntries), name:machineId
     }
     try {
       await API.graphql(graphqlOperation(UpdateBoxScore, {input: boxScores }))
@@ -93,7 +93,9 @@ async function updateBoxScore(boxEntries, machineId) {
     return () => {}
   }
  async function createBoxScore(boxScore, setBoxScore) {
+  console.log('some info: '+ boxScore.id + '\t' + boxScore.clientId + '\t' + boxScore.name);
   try {
+    
     await API.graphql(graphqlOperation(CreateBoxScore, { input: boxScore }))
     console.log('successfully created drum machine!')
   } catch (err) {
@@ -108,10 +110,10 @@ function reducer(state, action) {
   return action
 }
 
-export default function BoxScore({ gameName, machineId }) {
-    
+export default function BoxScore({ gameName, machineIdin }) {
+    console.log(machineIdin +"\t" + gameName);
     const name = gameName;
-    const id = machineId;
+    const machineId = machineIdin;
     const [boxScoreState, setBoxScore] = useReducer( reducer, boxScoreValues);
     const [currentBoxScore, setCurrentBoxScoreState] = useState(0);
     
@@ -120,7 +122,7 @@ export default function BoxScore({ gameName, machineId }) {
     useEffect(() => {
         const boxScore = {
             id: machineId,
-            clientId,
+            clientId: machineId,
             boxScore: JSON.stringify(boxScoreState),
             name: name
         }

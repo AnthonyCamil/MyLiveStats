@@ -92,17 +92,18 @@ async function updateBoxScore(boxEntries, machineId) {
     }
     return () => {}
   }
- async function createBoxScore(boxScore, setBoxScore) {
-  console.log('some info: '+ boxScore.id + '\t' + boxScore.clientId + '\t' + boxScore.name);
+ async function createBoxScore(boxScoreVal, setBoxScore) {
+  console.log('some info: '+ boxScoreVal.id + '\t' + boxScoreVal.clientId + '\t' + boxScoreVal.boxScore);
   try {
-    
-    await API.graphql(graphqlOperation(CreateBoxScore, { input: boxScore }))
+    console.log('trying to createMachine')
+    //await API.graphql(graphqlOperation(CreateBoxScore, { input: boxScore }))
+    await API.graphql(graphqlOperation(CreateBoxScore, { input:{ id: 1001, clientId: 1001, boxScore: boxScoreVal.boxScore, name: "test" }}))
     console.log('successfully created drum machine!')
   } catch (err) {
     console.log('error creating drum machine...: ', err)
     const { errors } = err
     console.log('errors' + errors[0].data)
-    const boxScore = errors[0].data.boxScore
+    const boxScore = errors[0].data.boxScoreVal
     setBoxScore(JSON.parse(boxScore))
   }
 } 

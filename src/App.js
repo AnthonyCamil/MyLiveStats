@@ -401,7 +401,7 @@ class App extends Component {
                     <br/>
                     
                     
-                    <BoxScore gameName='1' machineIdin= "111b51e7-65ab-4433-80ac-2aa6aeb55a70"
+                    <BoxScore gameName="game 1" machineIdin= "110"
                     />
                     <Wrapper>
                       {/*<BoxScoreContext.Provider value={{ state: boxScoreState, setBoxScore, updateBoxScore, machineId }} >*/}

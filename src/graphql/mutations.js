@@ -69,7 +69,7 @@ export const deleteReviews = `mutation DeleteReviews($input: DeleteReviewsInput!
 }
 `;
 
-export const createBoxScore = `mutation CreateBoxScoreMachine($input: CreateBoxScoreInput!) {
+export const createBoxScore = `mutation CreateBoxScore($input: CreateBoxScoreInput!) {
   createBoxScore(input: $input) {
     id
     clientId

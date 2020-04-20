@@ -44,6 +44,7 @@ export default React.memo(function ScoreButton({ btnName }) {
         console.log('Inning Half: ' + currentInningHalf);
         var activeBox = [];
         var whichTeam = '';
+        let awayScores = [state.Away_Team];
         switch (btnName) {
             case 'Home':
                 activeBox = [...state['Home_Team']];
@@ -70,6 +71,7 @@ export default React.memo(function ScoreButton({ btnName }) {
             ...state,
             ['Inning']: currentInning,
             [whichTeam]: activeBox,
+            ['Away_Team']: awayScores,
         }
         //return(newBoxScore);
         {/* do stuff */}

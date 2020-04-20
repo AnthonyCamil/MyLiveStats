@@ -97,7 +97,8 @@ async function updateBoxScore(boxEntries, machineId) {
   try {
     console.log('trying to createMachine')
     //await API.graphql(graphqlOperation(CreateBoxScore, { input: boxScore }))
-    await API.graphql(graphqlOperation(CreateBoxScore, { input:{ id: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', clientId: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', boxScore: boxScoreVal.boxScore, name: "test" }}))
+    //await API.graphql(graphqlOperation(CreateBoxScore, { input:{ id: "111", clientId: "11", boxScore: "{\"Inning\":1,\"InningHalf\":\"Top\",\"Away_Team\":[0,1,1,3,-,-,-,-,-,5],\"Home_Team\":[1,2,0,-,-,-,-,-,-,3]}", name: "test" }}));
+    await API.graphql(graphqlOperation(CreateBoxScore, {input:{ id: "1234", clientId: "10", boxScore: "{\"Inning\":1,\"InningHalf\":\"Top\",\"Away_Team\":[0,1,1,3,-,-,-,-,-,5],\"Home_Team\":[1,2,0,-,-,-,-,-,-,3]}", name: "test1"}}));
     console.log('successfully created drum machine!')
   } catch (err) {
     console.log('error creating drum machine...: ', err)

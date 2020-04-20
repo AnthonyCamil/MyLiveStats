@@ -77,8 +77,8 @@ const teamBoxScores = {
 };
 
 const boxScoreValues = {Inning: 1, InningHalf:'Top',
-Away_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,],
-  Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 0,], 
+Away_Team: ['0', '1', '1', '3', '-', '-', '-', '-', '-', 5],
+  Home_Team: ['1', '2', '0', '-', '-', '-', '-', '-', '-', 3], 
 };
 
 async function updateBoxScore(boxEntries, machineId) {
@@ -97,13 +97,13 @@ async function updateBoxScore(boxEntries, machineId) {
   try {
     console.log('trying to createMachine')
     //await API.graphql(graphqlOperation(CreateBoxScore, { input: boxScore }))
-    await API.graphql(graphqlOperation(CreateBoxScore, { input:{ id: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', clientId: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', boxScore: "test", name: "test" }}))
+    await API.graphql(graphqlOperation(CreateBoxScore, { input:{ id: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', clientId: '111b51e7-65ab-4433-80ac-2aa6aeb55a70', boxScore: boxScoreVal.boxScore, name: "test" }}))
     console.log('successfully created drum machine!')
   } catch (err) {
     console.log('error creating drum machine...: ', err)
     const { errors } = err
     console.log('errors' + errors[0].data)
-    const boxScore = errors[0].data.boxScoreVal
+    const boxScore = errors[0].data.boxScore
     setBoxScore(JSON.parse(boxScore))
   }
 } 
@@ -151,8 +151,8 @@ export default function BoxScore({ gameName, machineIdin }) {
                 <React.Suspense fallback={<p>loading</p>}>
                     <BoxScoreWrapper>
                       <TeamStatLine teamName='' boxValues={BoxScoreHeaders} /> {/* header row */}
-                      <TeamStatLine teamName='Away Team' boxValues={teamBoxScores['Away_Team']} />
-                      <TeamStatLine teamName='Home Team' boxValues={teamBoxScores['Home_Team']}/>
+                      <TeamStatLine teamName='Away Team' boxValues={boxScoreValues['Away_Team']} />
+                      <TeamStatLine teamName='Home Team' boxValues={boxScoreValues['Home_Team']}/>
                       
                     </BoxScoreWrapper>
                         

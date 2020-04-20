@@ -187,13 +187,7 @@ class App extends Component {
       return this.state;
     });
     this.setState({poster: firstMovies.data.listMoviess.items[0].poster, name:firstMovies.data.listMoviess.items[0].name, plot:firstMovies.data.listMoviess.items[0].plot, date:firstMovies.data.listMoviess.items[0].date});
-    this.subscription = API.graphql(graphqlOperation(onUpdateMovies)).subscribe({
-      next: (event) => { 
-          this.setState({poster: event.value.data.onUpdateMovies.poster,name: event.value.data.onUpdateMovies.name, plot:event.value.data.onUpdateMovies.plot, date:event.value.data.onUpdateMovies.date, clickLove:0, clickLike:0, clickMeh:0, clickUnknown:0, clickHate:0, timer:10});
-          console.log("Subscription for Movie " + event.value.data.onUpdateMovies.name);  
-          setInterval(this.aggVotes,3300);
-      }
-    });
+    
     this.subscription = API.graphql(graphqlOperation(onUpdateReviews)).subscribe({
       next: (event) => {  
           switch(event.value.data.onUpdateReviews.id){
@@ -403,34 +397,9 @@ class App extends Component {
                     
                     <BoxScore gameName="game 1" machineIdin= "111b51e7-65ab-4433-80ac-2aa6aeb55a70"
                     />
-                    <Wrapper>
-                      {/*<BoxScoreContext.Provider value={{ state: boxScoreState, setBoxScore, updateBoxScore, machineId }} >*/}
-            
-                      <Container>
-                      
-                      <React.Suspense fallback={<p>loading</p>}>
-                        
-                        <BoxScoreWrapper>
-                          <TeamStatLine teamName='' boxValues={BoxScoreHeaders} /> {/* header row */}
-                          <TeamStatLine teamName='Away Team' boxValues={teamBoxScores['Away_Team']} />
-                          <TeamStatLine teamName='Home Team' boxValues={teamBoxScores['Home_Team']}/>
-                          
-                        </BoxScoreWrapper>
-                        
-                        <ButtonContainer>
-                        
-                         <ScoreButton btnName='Home' />
-                          <ScoreButton btnName='Away' />
-                          <ScoreButton btnName='New Inning' />
-                         
-                        </ButtonContainer>
-                      </React.Suspense>
-                      </Container>
-                      {/*</BoxScoreContext.Provider>*/}
-                    </Wrapper>
                     
-                    {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
-                  </div>
+                    
+                     </div>
                 </div>
                 {/*<div className="col-md-4 p-1 card-body">
                   <div className="mx-auto bg-light rounded col-height">

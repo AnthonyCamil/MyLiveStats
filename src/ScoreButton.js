@@ -32,8 +32,9 @@ const Button = styled.button`
     );
 }*/}
 
-export default React.memo(function ScoreButton({ btnName }) {
+export default React.memo(function ScoreButton({ refs, tag, btnName }) {
     const context = useContext(BoxScoreContext);
+    console.log('tag:' + tag + 'btnName: ' + refs.btnNames[tag]);
     function toggleRun(e) {
         const { id, state, setBoxScore, updateBoxScore } = context
         console.log('Button Pressed')
@@ -45,17 +46,17 @@ export default React.memo(function ScoreButton({ btnName }) {
         var activeBox = [];
         var whichTeam = '';
         let awayScores = [state.Away_Team];
-        switch (btnName) {
-            case 'Home':
+        switch (tag) {
+            case refs.tags['Home']:
                 activeBox = [...state['Home_Team']];
                 whichTeam = 'Home_Team';
                  
                 break;
-            case 'Away':
+            case refs.tags['Home']:
                 activeBox = [...state['Away_Team']];
                 whichTeam = 'Away_Team';
                 break;
-            case 'New Inning':
+            case refs.tags['Home']:
                 
                 break;
             default:
@@ -74,15 +75,16 @@ export default React.memo(function ScoreButton({ btnName }) {
             [whichTeam]: activeBox,
             ['Away_Team']: awayScores,
         }
-        //return(newBoxScore);
+        return(newBoxScore);
         {/* do stuff */}
-        updateBoxScore(newBoxScore, id)
-        setBoxScore(newBoxScore)
+        //updateBoxScore(newBoxScore, id)
+        //setBoxScore(newBoxScore)
         
         
     }
     return (
         <Button onClick={ (e) => toggleRun(e)}>
+        {/*{refs.btnNames[tag]}*/}
         {btnName}
         
         </Button>

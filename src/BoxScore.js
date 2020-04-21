@@ -77,10 +77,16 @@ const teamBoxScores = {
 };
 
 const boxScoreValues = {Inning: 1, InningHalf:'Top',
-Away_Team: ['0', '1', '1', '3', '-', '-', '-', '-', '-', 5],
-  Home_Team: ['1', '2', '0', '-', '-', '-', '-', '-', '-', 3], 
+Away_Team: ['-','-', '-', '-', '-', '-', '-', '-', '-', 5],
+  Home_Team: ['-', '-', '-', '-', '-', '-', '-', '-', '-', 3], 
 };
 
+const Refs = {tags: ['Home', 'Away', 'Inning'],
+    btnNames: ['Home', 'Away', 'Change Inning'],
+    btnNames1: {Home: 'Home1', Away: 'Away', Inning: 'Inning'},
+    scoreTags: ['Home_Team', 'Away_Team', 'New_Inning'],
+  
+};
 async function updateBoxScore(boxEntries, machineId) {
     const boxScores = { 
       id: machineId, clientId,  boxScore: JSON.stringify(boxEntries), name:machineId
@@ -104,8 +110,8 @@ async function updateBoxScore(boxEntries, machineId) {
     console.log('error creating drum machine...: ', err)
     const { errors } = err
     console.log('errors' + errors[0].data)
-    const boxScore = errors[0].data.boxScore
-    setBoxScore(JSON.parse(boxScore))
+    //const boxScore = errors[0].data.boxScore
+    //setBoxScore(JSON.parse(boxScore))
   }
 } 
 function reducer(state, action) {
@@ -114,6 +120,11 @@ function reducer(state, action) {
 
 export default function BoxScore({ gameName, machineIdin }) {
     console.log(machineIdin +"\t" + gameName);
+    /*console.log(Refs.tags["Home"])
+    Refs.tags.map((t, i) => {
+      console.log('t:' + t) 
+      console.log(Refs.btnNames[i])
+    })*/
     const name = gameName;
     const machineId = machineIdin;
     const [boxScoreState, setBoxScore] = useReducer( reducer, boxScoreValues);
@@ -159,9 +170,9 @@ export default function BoxScore({ gameName, machineIdin }) {
                         
                     <ButtonContainer>
                         
-                     <ScoreButton btnName='Home' />
-                     <ScoreButton btnName='Away' />
-                     <ScoreButton btnName='New Inning' />
+                     <ScoreButton refs = {Refs} tag= {Refs.tags['Home']} btnName='Home' />
+                     <ScoreButton refs = {Refs} tag= {Refs.tags['Away']} btnName='Away' />
+                     <ScoreButton refs = {Refs} tag= {Refs.tags['Inning']} btnName='New Inning' />
                          
                     </ButtonContainer>
                 </React.Suspense>

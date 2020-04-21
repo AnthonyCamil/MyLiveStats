@@ -4,7 +4,8 @@ By: Anthony Camilletti and Andrew Capone
 ![Overview](/media/realtime-refarch.png)
 The project was based on the idea to allow anyone to be able to view the live stats of a baseball game if they can't be at the game. Someone who is at the game can interact with 3 buttons to add scores to each team as well as change the inning. We also though it was important to add a chat function to the app. Allowing for users to communicate with each other right from the app.
 
-The project was built off of a template from the [aws Appsync page](https://aws.amazon.com/appsync/), in section Use Cases->Real Time Colaboration->Databroadcasting. A link for more information can be found at [https://medium.com/open-graphql/aws-appsync-serverless-graphql-real-time-reference-architecture-19b16f5e9b93]. A link the the github page with the code can be found [here](https://github.com/aws-samples/appsync-refarch-realtime).
+The project was built off of a project template from the [aws Appsync page](https://aws.amazon.com/appsync/), in section Use Cases->Real Time Colaboration->Databroadcasting.
+For more information refer to the article [https://medium.com/open-graphql/aws-appsync-serverless-graphql-real-time-reference-architecture-19b16f5e9b93]. A link the the github page with the code can be found [here](https://github.com/aws-samples/appsync-refarch-realtime).
 
 For more information refer to the article https://medium.com/open-graphql/aws-appsync-serverless-graphql-real-time-reference-architecture-19b16f5e9b93
 
